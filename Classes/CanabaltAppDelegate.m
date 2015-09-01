@@ -58,6 +58,8 @@ void preloadTextureAtlases()
   
   [application setStatusBarOrientation:UIInterfaceOrientationLandscapeRight
 	       animated:NO];
+    
+    [application setStatusBarHidden:YES withAnimation:UIStatusBarAnimationNone];
 
   game = [[Canabalt alloc] init];
 
