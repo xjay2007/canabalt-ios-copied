@@ -15,8 +15,10 @@
 
 #import <OpenGLES/ES1/gl.h>
 
+
 @class FlxGroup;
 @class FlxState;
+@class RootViewController;
 
 @class EAGLContext;
 @class UIWindow;
@@ -52,6 +54,7 @@ typedef enum {
   UIDeviceOrientation orientation;
   
   //
+    RootViewController *viewController;
   UIWindow * window;
   EAGLContext * context;
   GLuint renderBuffer;

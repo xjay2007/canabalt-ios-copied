@@ -44,6 +44,11 @@ static unsigned int textureHeight;
 static BOOL gameStarted = NO;
 static CFTimeInterval gameStart;
 
+@interface RootViewController : UIViewController
+
+@property(nonatomic, assign) FlxGameOrientation gameOrientation;
+@end
+
 @interface FlxG ()
 + (void) setGameData:(FlxGame *)Game width:(int)width height:(int)height zoom:(float)Zoom;
 + (void) doFollow;
@@ -192,8 +197,10 @@ static CFTimeInterval gameStart;
     
     //do this before calling FlxG
     //create a window, and add glView to it
+      NSLog(@"%@", NSStringFromCGRect([UIScreen mainScreen].bounds));
     window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
-    //window.transform = CGAffineTransformMakeRotation(3*M_PI/2);
+      //window.transform = CGAffineTransformMakeRotation(3*M_PI/2);
+      NSLog(@"%@", NSStringFromCGRect(window.bounds));
     
     FlxGLView * glView = [[FlxGLView alloc] initWithFrame:window.bounds];
     //FlxGLView * glView = [[FlxGLView alloc] initWithFrame:CGRectMake(0,0,window.bounds.size.width/2,window.bounds.size.height/2)];
@@ -205,8 +212,16 @@ static CFTimeInterval gameStart;
     backingHeight = glView.backingHeight;
 
     [window makeKeyAndVisible];
+      
+      viewController = [[RootViewController alloc] init];
+      viewController.wantsFullScreenLayout = YES;
+      viewController.extendedLayoutIncludesOpaqueBars = YES;
+      viewController.gameOrientation = gameOrientation;
+      viewController.view = glView;
     
-    [window addSubview:glView];
+//    [window addSubview:viewController.view];
+      [window setRootViewController:viewController];
+      
     glView.center = CGPointMake(window.bounds.size.width/2,
 				window.bounds.size.height/2);
     [glView release];
@@ -214,52 +229,52 @@ static CFTimeInterval gameStart;
     //which way are we oriented?
     if (textureBufferZoom) {
       if (FlxG.retinaDisplay) {
-        if (gameOrientation == FlxGameOrientationPortrait)
+//        if (gameOrientation == FlxGameOrientationPortrait)
           [FlxG setGameData:self
                       width:(int)(glView.bounds.size.width/_zoom)
                      height:(int)(glView.bounds.size.height/_zoom)
                        zoom:Zoom];
-        else
-          [FlxG setGameData:self
-                      width:(int)(glView.bounds.size.height/_zoom)
-                     height:(int)(glView.bounds.size.width/_zoom)
-                       zoom:Zoom];
+//        else
+//          [FlxG setGameData:self
+//                      width:(int)(glView.bounds.size.height/_zoom)
+//                     height:(int)(glView.bounds.size.width/_zoom)
+//                       zoom:Zoom];
       } else {
-        if (gameOrientation == FlxGameOrientationPortrait)
+//        if (gameOrientation == FlxGameOrientationPortrait)
           [FlxG setGameData:self
                       width:(int)(glView.bounds.size.width/_zoom/2)
                      height:(int)(glView.bounds.size.height/_zoom/2)
                        zoom:Zoom];
-        else
-          [FlxG setGameData:self
-                      width:(int)(glView.bounds.size.height/_zoom/2)
-                     height:(int)(glView.bounds.size.width/_zoom/2)
-                       zoom:Zoom];
+//        else
+//          [FlxG setGameData:self
+//                      width:(int)(glView.bounds.size.height/_zoom/2)
+//                     height:(int)(glView.bounds.size.width/_zoom/2)
+//                       zoom:Zoom];
       }
     } else {
       if (FlxG.retinaDisplay) {
-        if (gameOrientation == FlxGameOrientationPortrait)
+//        if (gameOrientation == FlxGameOrientationPortrait)
           [FlxG setGameData:self
                       width:(int)(glView.bounds.size.width)
                      height:(int)(glView.bounds.size.height)
                        zoom:Zoom];
-        else
-          [FlxG setGameData:self
-                      width:(int)(glView.bounds.size.height)
-                     height:(int)(glView.bounds.size.width)
-                       zoom:Zoom];
+//        else
+//          [FlxG setGameData:self
+//                      width:(int)(glView.bounds.size.height)
+//                     height:(int)(glView.bounds.size.width)
+//                       zoom:Zoom];
       } else {
-        if (gameOrientation == FlxGameOrientationPortrait)
+//        if (gameOrientation == FlxGameOrientationPortrait)
           [FlxG setGameData:self
                       width:(int)(glView.bounds.size.width/_zoom)
                      height:(int)(glView.bounds.size.height/_zoom)
                        zoom:Zoom];
-        else
-          [FlxG setGameData:self
-                      width:(int)(glView.bounds.size.height/_zoom)
-                     height:(int)(glView.bounds.size.width/_zoom)
-                       zoom:Zoom];
-      }        
+//        else
+//          [FlxG setGameData:self
+//                      width:(int)(glView.bounds.size.height/_zoom)
+//                     height:(int)(glView.bounds.size.width/_zoom)
+//                       zoom:Zoom];
+      }
     }      
 
     _iState = [InitialState copy];
@@ -511,6 +526,7 @@ static CFTimeInterval gameStart;
   [[UIDevice currentDevice] endGeneratingDeviceOrientationNotifications];
   [context release];
   [window release];
+    [viewController release];
   [super dealloc];
 }
 
@@ -911,6 +927,22 @@ static CFTimeInterval gameStart;
   [displayLink setFrameInterval:self.frameInterval];
   [displayLink addToRunLoop:[NSRunLoop currentRunLoop]
 	       forMode:NSDefaultRunLoopMode];
+}
+
+@end
+
+
+@implementation RootViewController
+
+- (NSUInteger) supportedInterfaceOrientations {
+    if (self.gameOrientation == FlxGameOrientationLandscape) {
+        return UIInterfaceOrientationMaskLandscape;
+    } else {
+        return UIInterfaceOrientationMaskPortrait;
+    }
+}
+- (BOOL) shouldAutorotate {
+    return YES;
 }
 
 @end
