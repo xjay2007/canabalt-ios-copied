@@ -4,3 +4,5 @@ build
 *.mode1v3
 .DS_Store
 
+Canabalt.xcodeproj/project.xcworkspace
+Canabalt.xcodeproj/xcuserdata
