@@ -121,16 +121,20 @@
     break;
   case UIDeviceOrientationLandscapeLeft:
     {
-      CGFloat x = p.x;
-      p.x = p.y/z;
-      p.y = (t.view.bounds.size.width-x)/z;
+//      CGFloat x = p.x;
+//      p.x = p.y/z;
+        //      p.y = (t.view.bounds.size.width-x)/z;
+        p.x = (t.view.bounds.size.width-p.x)/z;
+        p.y = (t.view.bounds.size.height-p.y)/z;
       break;
     }
   case UIDeviceOrientationLandscapeRight:
     {
-      CGFloat x = p.x;
-      p.x = (t.view.bounds.size.height-p.y)/z;
-      p.y = x/z;
+//      CGFloat x = p.x;
+//      p.x = (t.view.bounds.size.width-p.y)/z;
+//      p.y = x/z;
+        p.x = p.x/z;
+        p.y = p.y/z;
       break;
     }
   }
