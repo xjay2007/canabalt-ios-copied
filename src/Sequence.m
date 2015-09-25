@@ -644,7 +644,7 @@ enum {
       int doveHeight = self.y - 10;
       if (type == BILLBOARD)
         doveHeight -= hallHeight;
-      for (i = 0; i < n; ++i) {
+      for (i = 0; i < n && i < doveGroup.members.count; ++i) {
         Dove * dove = [doveGroup.members objectAtIndex:i];
         dove.x = self.x + ([FlxU random]*(self.width-10));
         dove.y = doveHeight;

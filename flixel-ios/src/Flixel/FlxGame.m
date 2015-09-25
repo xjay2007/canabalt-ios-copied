@@ -229,51 +229,51 @@ static CFTimeInterval gameStart;
     //which way are we oriented?
     if (textureBufferZoom) {
       if (FlxG.retinaDisplay) {
-//        if (gameOrientation == FlxGameOrientationPortrait)
+        if (gameOrientation == FlxGameOrientationPortrait)
           [FlxG setGameData:self
                       width:(int)(glView.bounds.size.width/_zoom)
                      height:(int)(glView.bounds.size.height/_zoom)
                        zoom:Zoom];
-//        else
-//          [FlxG setGameData:self
-//                      width:(int)(glView.bounds.size.height/_zoom)
-//                     height:(int)(glView.bounds.size.width/_zoom)
-//                       zoom:Zoom];
+        else
+          [FlxG setGameData:self
+                      width:(int)(glView.bounds.size.height/_zoom)
+                     height:(int)(glView.bounds.size.width/_zoom)
+                       zoom:Zoom];
       } else {
-//        if (gameOrientation == FlxGameOrientationPortrait)
+        if (gameOrientation == FlxGameOrientationPortrait)
           [FlxG setGameData:self
                       width:(int)(glView.bounds.size.width/_zoom/2)
                      height:(int)(glView.bounds.size.height/_zoom/2)
                        zoom:Zoom];
-//        else
-//          [FlxG setGameData:self
-//                      width:(int)(glView.bounds.size.height/_zoom/2)
-//                     height:(int)(glView.bounds.size.width/_zoom/2)
-//                       zoom:Zoom];
+        else
+          [FlxG setGameData:self
+                      width:(int)(glView.bounds.size.height/_zoom/2)
+                     height:(int)(glView.bounds.size.width/_zoom/2)
+                       zoom:Zoom];
       }
     } else {
       if (FlxG.retinaDisplay) {
-//        if (gameOrientation == FlxGameOrientationPortrait)
+        if (gameOrientation == FlxGameOrientationPortrait)
           [FlxG setGameData:self
                       width:(int)(glView.bounds.size.width)
                      height:(int)(glView.bounds.size.height)
                        zoom:Zoom];
-//        else
-//          [FlxG setGameData:self
-//                      width:(int)(glView.bounds.size.height)
-//                     height:(int)(glView.bounds.size.width)
-//                       zoom:Zoom];
+        else
+          [FlxG setGameData:self
+                      width:(int)(glView.bounds.size.height)
+                     height:(int)(glView.bounds.size.width)
+                       zoom:Zoom];
       } else {
-//        if (gameOrientation == FlxGameOrientationPortrait)
+        if (gameOrientation == FlxGameOrientationPortrait)
           [FlxG setGameData:self
                       width:(int)(glView.bounds.size.width/_zoom)
                      height:(int)(glView.bounds.size.height/_zoom)
                        zoom:Zoom];
-//        else
-//          [FlxG setGameData:self
-//                      width:(int)(glView.bounds.size.height/_zoom)
-//                     height:(int)(glView.bounds.size.width/_zoom)
-//                       zoom:Zoom];
+        else
+          [FlxG setGameData:self
+                      width:(int)(glView.bounds.size.height/_zoom)
+                     height:(int)(glView.bounds.size.width/_zoom)
+                       zoom:Zoom];
       }
     }      
 
@@ -943,6 +943,10 @@ static CFTimeInterval gameStart;
 }
 - (BOOL) shouldAutorotate {
     return YES;
+}
+
+- (UIInterfaceOrientation)preferredInterfaceOrientationForPresentation {
+    return UIDeviceOrientationLandscapeRight;
 }
 
 @end
