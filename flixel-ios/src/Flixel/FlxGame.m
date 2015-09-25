@@ -236,8 +236,8 @@ static CFTimeInterval gameStart;
                        zoom:Zoom];
         else
           [FlxG setGameData:self
-                      width:(int)(glView.bounds.size.height/_zoom)
-                     height:(int)(glView.bounds.size.width/_zoom)
+                      width:(int)(glView.bounds.size.width/_zoom)
+                     height:(int)(glView.bounds.size.height/_zoom)
                        zoom:Zoom];
       } else {
         if (gameOrientation == FlxGameOrientationPortrait)
@@ -247,8 +247,8 @@ static CFTimeInterval gameStart;
                        zoom:Zoom];
         else
           [FlxG setGameData:self
-                      width:(int)(glView.bounds.size.height/_zoom/2)
-                     height:(int)(glView.bounds.size.width/_zoom/2)
+                      width:(int)(glView.bounds.size.width/_zoom/2)
+                     height:(int)(glView.bounds.size.height/_zoom/2)
                        zoom:Zoom];
       }
     } else {
@@ -260,8 +260,8 @@ static CFTimeInterval gameStart;
                        zoom:Zoom];
         else
           [FlxG setGameData:self
-                      width:(int)(glView.bounds.size.height)
-                     height:(int)(glView.bounds.size.width)
+                      width:(int)(glView.bounds.size.width)
+                     height:(int)(glView.bounds.size.height)
                        zoom:Zoom];
       } else {
         if (gameOrientation == FlxGameOrientationPortrait)
@@ -271,8 +271,8 @@ static CFTimeInterval gameStart;
                        zoom:Zoom];
         else
           [FlxG setGameData:self
-                      width:(int)(glView.bounds.size.height/_zoom)
-                     height:(int)(glView.bounds.size.width/_zoom)
+                      width:(int)(glView.bounds.size.width/_zoom)
+                     height:(int)(glView.bounds.size.height/_zoom)
                        zoom:Zoom];
       }
     }      
@@ -297,8 +297,8 @@ static CFTimeInterval gameStart;
     GLint lastTexture;
     //todo
     //hardcode this stuff -> assume rotated, like in canabalt
-    int halfWidth = backingHeight/2;
-    int halfHeight = backingWidth/2;
+      int halfWidth = backingWidth/2;//backingHeight/2;
+      int halfHeight = backingHeight/2;//backingWidth/2;
     textureWidth = halfWidth;
     textureHeight = halfHeight;
     if (halfWidth != 1 && (halfWidth & (halfWidth-1))) {
@@ -367,24 +367,24 @@ static CFTimeInterval gameStart;
     blackVertices[19] = 0;
     break;
   case FlxGameOrientationLandscape:
-    blackVertices[0] = -backingHeight/2/_zoom/blackScale;
-    blackVertices[1] = -backingWidth/2/_zoom/blackScale;
+    blackVertices[0] = -backingWidth/2/_zoom/blackScale;
+    blackVertices[1] = -backingHeight/2/_zoom/blackScale;
     blackVertices[2] = 0;
     blackVertices[3] = 0;
-    blackVertices[4] = 3*backingHeight/2/_zoom/blackScale;
-    blackVertices[5] = -backingWidth/2/_zoom/blackScale;
-    blackVertices[6] = backingHeight/_zoom/blackScale;
+    blackVertices[4] = 3*backingWidth/2/_zoom/blackScale;
+    blackVertices[5] = -backingHeight/2/_zoom/blackScale;
+    blackVertices[6] = backingWidth/_zoom/blackScale;
     blackVertices[7] = 0;
-    blackVertices[8] = 3*backingHeight/2/_zoom/blackScale;
-    blackVertices[9] = 3*backingWidth/2/_zoom/blackScale;
-    blackVertices[10] = backingHeight/_zoom/blackScale;
-    blackVertices[11] = backingWidth/_zoom/blackScale;
-    blackVertices[12] = -backingHeight/2/_zoom/blackScale;
-    blackVertices[13] = 3*backingWidth/2/_zoom/blackScale;
+    blackVertices[8] = 3*backingWidth/2/_zoom/blackScale;
+    blackVertices[9] = 3*backingHeight/2/_zoom/blackScale;
+    blackVertices[10] = backingWidth/_zoom/blackScale;
+    blackVertices[11] = backingHeight/_zoom/blackScale;
+    blackVertices[12] = -backingWidth/2/_zoom/blackScale;
+    blackVertices[13] = 3*backingHeight/2/_zoom/blackScale;
     blackVertices[14] = 0;
-    blackVertices[15] = backingWidth/_zoom/blackScale;
-    blackVertices[16] = -backingHeight/2/_zoom/blackScale;
-    blackVertices[17] = -backingWidth/2/_zoom/blackScale;
+    blackVertices[15] = backingHeight/_zoom/blackScale;
+    blackVertices[16] = -backingWidth/2/_zoom/blackScale;
+    blackVertices[17] = -backingHeight/2/_zoom/blackScale;
     blackVertices[18] = 0;
     blackVertices[19] = 0;
     break;
@@ -706,12 +706,12 @@ static CFTimeInterval gameStart;
     glBindFramebufferOES(GL_FRAMEBUFFER_OES, textureFrameBuffer);
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
-    glOrthof(0, backingHeight/2, backingWidth/2, 0, -1, 1);
+    glOrthof(0, backingWidth/2, backingHeight/2, 0, -1, 1);
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
     //flip and shift...
     glScalef(-1.0, 1.0, 1.0);
-    glTranslatef(-backingHeight/2, 0, 0);
+    glTranslatef(-backingWidth/2, 0, 0);
   }
   
   if (_created) {
@@ -742,7 +742,7 @@ static CFTimeInterval gameStart;
     [_state preProcess];
 
     if (textureBufferZoom)
-      glViewport(0, 0, backingHeight/2, backingWidth/2);
+      glViewport(0, 0, backingWidth/2, backingHeight/2);
     else
       glViewport(0, 0, backingWidth, backingHeight);
 
@@ -764,6 +764,7 @@ static CFTimeInterval gameStart;
     float x = (autorotateAngle/180.0);
     float s_x = 3*x*x - 2*x*x*x;
     actualAngle = s_x*180.0;
+      actualAngle+=90;
     
     if (!textureBufferZoom) {
       switch (gameOrientation) {
@@ -776,7 +777,7 @@ static CFTimeInterval gameStart;
       case FlxGameOrientationLandscape:
 	glTranslatef(backingWidth/2/_zoom, backingHeight/2/_zoom, 0);
 	glRotatef(90+actualAngle, 0, 0, 1);
-	glTranslatef(-backingHeight/2/_zoom, -backingWidth/2/_zoom, 0);
+	glTranslatef(-backingWidth/2/_zoom, -backingHeight/2/_zoom, 0);
 	break;
       }
     }
@@ -863,7 +864,7 @@ static CFTimeInterval gameStart;
     case FlxGameOrientationLandscape:
       glTranslatef(backingWidth/2/2, backingHeight/2/2, 0);
       glRotatef(-90+actualAngle, 0, 0, 1);
-      glTranslatef(-backingHeight/2/2, -backingWidth/2/2, 0);
+      glTranslatef(-backingWidth/2/2, -backingHeight/2/2, 0);
       break;
     }
 
